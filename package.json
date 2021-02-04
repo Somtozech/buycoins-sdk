@@ -39,5 +39,8 @@
 	},
 	"pre-commit": [
 		"lint"
-	]
+	],
+	"dependencies": {
+		"@octokit/graphql": "^4.6.0"
+	}
 }
