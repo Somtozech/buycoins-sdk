@@ -8,3 +8,4 @@ export interface ApiInterface {
 }
 
 export * from "./accounts";
+export * from "./p2p";

@@ -2,6 +2,7 @@ import { graphql } from "@octokit/graphql";
 import { ApiInterface, ApiRequest } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
+import P2P from "./core/p2p";
 
 const BUYCOINS_ENDPOINT = "https://backend.buycoins.tech/api";
 
@@ -9,6 +10,7 @@ export class BuyCoins {
   private readonly client: any;
 
   public accounts: Accounts;
+  public p2p: P2P;
 
   constructor(options: ApiInterface) {
     const headers = this.authHeader(options);
@@ -21,6 +23,7 @@ export class BuyCoins {
     const request = this.makeRequest.bind(this);
 
     this.accounts = new Accounts(request);
+    this.p2p = new P2P(request);
   }
 
   makeRequest<T>(query: string, variables = {}): Promise<T> {
