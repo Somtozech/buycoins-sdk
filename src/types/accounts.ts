@@ -1,3 +1,4 @@
+import { CryptoCurrency } from "./";
 export interface AccountInfo {
   accountNumber: string;
   accountName: string;
@@ -8,4 +9,15 @@ export interface AccountInfo {
 
 export interface IcreateDepositAccount {
   createDepositAccount: AccountInfo;
+}
+
+export interface Address {
+  id: string;
+  createdAt: number;
+  address: string;
+  cryptocurrency: CryptoCurrency;
+}
+
+export interface ICreateAddress {
+  createAddress: Address;
 }
