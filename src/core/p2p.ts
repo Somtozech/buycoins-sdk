@@ -93,10 +93,9 @@ export default class P2P {
     return result.postMarketOrder;
   }
 
-  async getMarketBook(payload?: GetMarketBookInput): Promise<IGetOrdersResult> {
-    if (!payload) {
-      payload = {};
-    }
+  async getMarketBook(
+    payload: GetMarketBookInput = {}
+  ): Promise<IGetOrdersResult> {
     const query = `query($cryptocurrency: Cryptocurrency,$coinAmount: BigDecimal) {
       getMarketBook(cryptocurrency: $cryptocurrency, coinAmount: $coinAmount) {
         dynamicPriceExpiry

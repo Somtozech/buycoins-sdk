@@ -3,6 +3,7 @@ import { ApiInterface, ApiRequest } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
 import P2P from "./core/p2p";
+import Orders from "./core/orders";
 
 const BUYCOINS_ENDPOINT = "https://backend.buycoins.tech/api";
 
@@ -11,6 +12,7 @@ export class BuyCoins {
 
   public accounts: Accounts;
   public p2p: P2P;
+  public orders: Orders;
 
   constructor(options: ApiInterface) {
     const headers = this.authHeader(options);
@@ -24,6 +26,7 @@ export class BuyCoins {
 
     this.accounts = new Accounts(request);
     this.p2p = new P2P(request);
+    this.orders = new Orders(request);
   }
 
   makeRequest<T>(query: string, variables = {}): Promise<T> {
