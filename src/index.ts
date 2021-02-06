@@ -1,9 +1,11 @@
 import { graphql } from "@octokit/graphql";
-import { ApiInterface, ApiRequest } from "./types";
+import { ApiInterface } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
 import P2P from "./core/p2p";
 import Orders from "./core/orders";
+import Transactions from "./core/transactions";
+import Webhook from "./core/webhook";
 
 const BUYCOINS_ENDPOINT = "https://backend.buycoins.tech/api";
 
@@ -13,6 +15,8 @@ export class BuyCoins {
   public accounts: Accounts;
   public p2p: P2P;
   public orders: Orders;
+  public transactions: Transactions;
+  public webhook: Webhook;
 
   constructor(options: ApiInterface) {
     const headers = this.authHeader(options);
@@ -27,6 +31,8 @@ export class BuyCoins {
     this.accounts = new Accounts(request);
     this.p2p = new P2P(request);
     this.orders = new Orders(request);
+    this.transactions = new Transactions(request);
+    this.webhook = new Webhook();
   }
 
   makeRequest<T>(query: string, variables = {}): Promise<T> {
@@ -40,18 +46,18 @@ export class BuyCoins {
   }
 
   processException(error: any) {
-    let error_message: string = "unknown Error occured";
+    let errorMessage: string = "unknown Error occured";
 
     if (typeof error?.errors === "string") {
-      error_message = error.errors;
+      errorMessage = error.errors;
     }
 
     if (Array.isArray(error.errors) && error.errors.length > 0) {
-      error_message = error.errors[0].message;
+      errorMessage = error.errors[0].message;
     }
 
     return new BuyCoinsError({
-      message: error_message,
+      message: errorMessage,
       request: error.request,
       name: error.name,
       status: error.status,
