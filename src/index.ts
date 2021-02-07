@@ -1,4 +1,5 @@
-import { graphql } from "@octokit/graphql";
+// import { graphql } from "@octokit/graphql";
+import { GraphQLClient } from "graphql-request";
 import { ApiInterface } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
@@ -21,10 +22,7 @@ export class BuyCoins {
   constructor(options: ApiInterface) {
     const headers = this.authHeader(options);
 
-    this.client = graphql.defaults({
-      baseUrl: BUYCOINS_ENDPOINT,
-      headers,
-    });
+    this.client = new GraphQLClient(BUYCOINS_ENDPOINT, { headers });
 
     const request = this.makeRequest.bind(this);
 
@@ -37,7 +35,8 @@ export class BuyCoins {
 
   makeRequest<T>(query: string, variables = {}): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.client(query, variables)
+      this.client
+        .request(query, variables)
         .then((result: T) => resolve(result))
         .catch((error: any) => {
           reject(this.processException(error));
