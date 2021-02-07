@@ -1,5 +1,5 @@
 // import { graphql } from "@octokit/graphql";
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient, gql } from "graphql-request";
 import { ApiInterface } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
@@ -8,8 +8,7 @@ import Orders from "./core/orders";
 import Transactions from "./core/transactions";
 import Webhook from "./core/webhook";
 
-const BUYCOINS_ENDPOINT = "https://backend.buycoins.tech/api";
-
+const BUYCOINS_ENDPOINT = "https://backend.buycoins.tech/api/graphql";
 export class BuyCoins {
   private readonly client: any;
 
