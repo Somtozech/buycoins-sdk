@@ -1,5 +1,5 @@
 // import { graphql } from "@octokit/graphql";
-import { GraphQLClient, gql, ClientError } from "graphql-request";
+import { GraphQLClient, ClientError } from "graphql-request";
 import { ApiInterface } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
@@ -19,6 +19,8 @@ export class BuyCoins {
   public webhook: Webhook;
 
   constructor(options: ApiInterface) {
+    this.validateCredentials(options);
+
     const headers = this.authHeader(options);
 
     this.client = new GraphQLClient(BUYCOINS_ENDPOINT, { headers });
@@ -69,5 +71,28 @@ export class BuyCoins {
     return {
       authorization,
     };
+  }
+
+  validateCredentials(credentials: ApiInterface): void {
+    if (typeof credentials !== "object") {
+      throw new BuyCoinsError({
+        message: "invalid credentials",
+        name: "invalidCredentialsError",
+      });
+    }
+
+    if (typeof credentials.username !== "string") {
+      throw new BuyCoinsError({
+        message: "username is invalid",
+        name: "invalidCredentialsError",
+      });
+    }
+
+    if (typeof credentials.password !== "string") {
+      throw new BuyCoinsError({
+        message: "password is invalid",
+        name: "invalidCredentialsError",
+      });
+    }
   }
 }

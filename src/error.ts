@@ -1,8 +1,8 @@
 interface IBuyCoinsError {
-  name: string;
+  name?: string;
   message: string;
-  request: any;
-  status: number;
+  request?: any;
+  status?: number;
 }
 
 class BuyCoinsError extends Error {
