@@ -63,6 +63,8 @@ describe("Transactions", () => {
         },
       },
     };
+
+    mocked(mockedResult);
     const result = await buycoins.transactions.send({
       address: "1MmyYvSEYLCPm45Ps6vQin1heGBv3UpNbf",
       amount: 0.03,

@@ -8,7 +8,7 @@ export default class Webhooks {
   }
 
   verify(body: any, webhook_token: string, webhook_signature: string): Boolean {
-    const signature = this.sign(body, webhook_token);
+    const signature = this.sign(JSON.stringify(body), webhook_token);
     return signature === webhook_signature;
   }
 }
