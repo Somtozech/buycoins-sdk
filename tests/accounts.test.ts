@@ -1,7 +1,7 @@
 import buycoins, { mocked } from "./setup";
 
 describe("Accounts", () => {
-  it("#createDepositAccount", async () => {
+  test("#createDepositAccount", async () => {
     const mockResult = {
       createDepositAccount: {
         accountName: "john doe",
@@ -19,7 +19,7 @@ describe("Accounts", () => {
     expect(result).toEqual(mockResult.createDepositAccount);
   });
 
-  it("#createAddress", async () => {
+  test("#createAddress", async () => {
     const mockResult = {
       createAddress: {
         id: "QWRkcmVzcy03NWYzMmIzZS0xY2NkLTQzMGMtYjdhOS02NTM0ZmEwYjMxMDk=",

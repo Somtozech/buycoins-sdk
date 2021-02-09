@@ -1,5 +1,5 @@
 // import { graphql } from "@octokit/graphql";
-import { GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient, gql, ClientError } from "graphql-request";
 import { ApiInterface } from "./types";
 import BuyCoinsError from "./error";
 import Accounts from "./core/accounts";
@@ -37,28 +37,25 @@ export class BuyCoins {
       this.client
         .request(query, variables)
         .then((result: T) => resolve(result))
-        .catch((error: any) => {
+        .catch((error: ClientError) => {
           reject(this.processException(error));
         });
     });
   }
 
-  processException(error: any) {
-    let errorMessage: string = "unknown Error occured";
+  processException(error: ClientError) {
+    const { response } = error;
+    let errorMessage: string = error.message;
 
-    if (typeof error?.errors === "string") {
-      errorMessage = error.errors;
-    }
-
-    if (Array.isArray(error.errors) && error.errors.length > 0) {
-      errorMessage = error.errors[0].message;
+    if (response.errors && Array.isArray(response.errors)) {
+      errorMessage = response.errors[0].message;
     }
 
     return new BuyCoinsError({
       message: errorMessage,
       request: error.request,
       name: error.name,
-      status: error.status,
+      status: response.status,
     });
   }
 
